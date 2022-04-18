@@ -1,9 +1,10 @@
 package org.keliu.orderservice.domain;
 
 import io.eventuate.tram.events.aggregates.ResultWithDomainEvents;
-import org.keliu.common.domain.Money;
+import org.keliu.domain.Money;
+import org.keliu.exception.UnsupportedStateTransitionException;
 import org.keliu.orderservice.events.*;
-import org.keliu.orderservice.exception.UnsupportedStateTransitionException;
+import org.keliu.orderservice.exception.OrderMinimumNotMetException;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -24,7 +25,7 @@ public class Order {
                 restaurant.getName()
         ));
 
-        return new ResultWithDomainEvents<>(order, events);
+        return new ResultWithDomainEvents<Order, OrderDomainEvent>(order, events);
     }
 
     @Id
@@ -87,7 +88,7 @@ public class Order {
         switch (state) {
             case CANCEL_PENDING:
                 this.state = OrderState.CANCELLED;
-                return singletonList(new OrderCancelled());
+                return singletonList(new OrderCancelledEvent());
             default:
                 throw new UnsupportedStateTransitionException(state);
         }
@@ -97,7 +98,7 @@ public class Order {
         switch (state) {
             case APPROVAL_PENDING:
                 this.state = APPROVED;
-                return singletonList(new OrderAuthorized());
+                return singletonList(new OrderAuthorizedEvent());
             default:
                 throw new UnsupportedStateTransitionException(state);
         }
@@ -107,13 +108,59 @@ public class Order {
         switch (state) {
             case APPROVAL_PENDING:
                 this.state = REJECTED;
-                return singletonList(new OrderRejected());
+                return singletonList(new OrderRejectedEvent());
 
             default:
                 throw new UnsupportedStateTransitionException(state);
         }
     }
 
+    public List<OrderDomainEvent> noteReversingAuthorization() {
+        return null;
+    }
+
+    public ResultWithDomainEvents<LineItemQuantityChange, OrderDomainEvent> revise(OrderRevision orderRevision) {
+        switch (state) {
+            case APPROVED:
+                LineItemQuantityChange change = orderLineItems.lineItemQuantityChange(orderRevision);
+                if (change.newOrderTotal.isGreaterThanOrEqual(orderMinimum)) {
+                    throw new OrderMinimumNotMetException();
+                }
+                this.state = REVISION_PENDING;
+                return new ResultWithDomainEvents<>(change, singletonList(new OrderRevisionProposedEvent(orderRevision, change.currentOrderTotal, change.newOrderTotal)));
+
+            default:
+                throw new UnsupportedStateTransitionException(state);
+        }
+    }
+
+    public List<OrderDomainEvent> rejectRevision() {
+        switch (state) {
+            case REVISION_PENDING:
+                this.state = APPROVED;
+                return emptyList();
+            default:
+                throw new UnsupportedStateTransitionException(state);
+        }
+    }
+
+    public List<OrderDomainEvent> confirmRevision(OrderRevision orderRevision) {
+        switch (state) {
+            case REVISION_PENDING:
+                LineItemQuantityChange licd = orderLineItems.lineItemQuantityChange(orderRevision);
+
+                orderRevision.getDeliveryInformation().ifPresent(newDi -> this.deliveryInformation = newDi);
+
+                if (orderRevision.getRevisedOrderLineItems() != null && orderRevision.getRevisedOrderLineItems().size() > 0) {
+                    orderLineItems.updateLineItems(orderRevision);
+                }
+
+                this.state = APPROVED;
+                return singletonList(new OrderRevisedEvent(orderRevision, licd.currentOrderTotal, licd.newOrderTotal));
+            default:
+                throw new UnsupportedStateTransitionException(state);
+        }
+    }
 
     //getter setter
     public long getId() {

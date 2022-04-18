@@ -1,6 +1,6 @@
-package org.keliu.orderservice.domain;
+package org.keliu.domain.order;
 
-import org.keliu.domain.order.RevisedOrderLineItem;
+import org.keliu.domain.delivery.DeliveryInformation;
 
 import java.util.List;
 import java.util.Optional;

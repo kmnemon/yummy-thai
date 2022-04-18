@@ -1,20 +1,28 @@
-package org.keliu.orderservice.dto;
+package org.keliu.command;
 
+import io.eventuate.tram.commands.common.Command;
 import org.keliu.domain.Money;
-import org.keliu.orderservice.domain.OrderState;
 
-public class GetOrderResponse {
+public class AuthorizeCommand implements Command {
+    private long consumerId;
     private long orderId;
-    private OrderState state;
     private Money orderTotal;
 
-    private GetOrderResponse() {
+    public AuthorizeCommand() {
     }
 
-    public GetOrderResponse(long orderId, OrderState state, Money orderTotal) {
+    public AuthorizeCommand(long consumerId, Long orderId, Money orderTotal) {
+        this.consumerId = consumerId;
         this.orderId = orderId;
-        this.state = state;
         this.orderTotal = orderTotal;
+    }
+
+    public long getConsumerId() {
+        return consumerId;
+    }
+
+    public void setConsumerId(long consumerId) {
+        this.consumerId = consumerId;
     }
 
     public Money getOrderTotal() {
@@ -26,18 +34,12 @@ public class GetOrderResponse {
     }
 
     public long getOrderId() {
+
         return orderId;
+
     }
 
     public void setOrderId(long orderId) {
         this.orderId = orderId;
-    }
-
-    public OrderState getState() {
-        return state;
-    }
-
-    public void setState(OrderState state) {
-        this.state = state;
     }
 }
