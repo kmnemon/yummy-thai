@@ -3,7 +3,7 @@ package org.keliu.orderservice.domain;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.keliu.orderservice.common.Money;
+import org.keliu.common.domain.Money;
 
 import javax.persistence.*;
 

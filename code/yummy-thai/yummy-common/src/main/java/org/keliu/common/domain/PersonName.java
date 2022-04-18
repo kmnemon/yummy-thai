@@ -1,4 +1,4 @@
-package org.keliu.orderservice.common;
+package org.keliu.common.domain;
 
 public class PersonName {
     private String firstName;

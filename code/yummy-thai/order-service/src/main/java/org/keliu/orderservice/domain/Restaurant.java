@@ -11,7 +11,7 @@ import java.util.Optional;
 @Access(AccessType.FIELD)
 public class Restaurant {
     @Id
-    private Long id;
+    private long id;
 
     @ElementCollection
     @CollectionTable(name = "order_service_restaurant_menu_items")
@@ -32,7 +32,7 @@ public class Restaurant {
         throw new UnsupportedOperationException();
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

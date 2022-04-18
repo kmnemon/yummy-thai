@@ -1,6 +1,6 @@
 package org.keliu.orderservice.domain;
 
-import org.keliu.orderservice.common.RevisedOrderLineItem;
+import org.keliu.common.domain.RevisedOrderLineItem;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package org.keliu.orderservice.domain;
 
-import org.keliu.orderservice.common.Money;
+import org.keliu.common.domain.Money;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
