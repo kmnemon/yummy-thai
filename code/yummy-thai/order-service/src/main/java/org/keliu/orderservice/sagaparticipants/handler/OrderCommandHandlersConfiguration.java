@@ -4,7 +4,7 @@ import io.eventuate.tram.sagas.participant.SagaCommandDispatcher;
 import io.eventuate.tram.sagas.participant.SagaCommandDispatcherFactory;
 import io.eventuate.tram.sagas.spring.participant.SagaParticipantConfiguration;
 import io.eventuate.tram.spring.events.publisher.TramEventsPublisherConfiguration;
-import org.keliu.config.CommonConfiguration;
+import org.keliu.common.config.CommonConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

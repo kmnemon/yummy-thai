@@ -1,7 +1,7 @@
 package org.keliu.orderservice.events;
 
-import org.keliu.domain.Money;
-import org.keliu.orderservice.domain.OrderRevision;
+import org.keliu.common.domain.Money;
+import org.keliu.common.domain.order.OrderRevision;
 
 public class OrderRevisedEvent implements OrderDomainEvent{
     private final OrderRevision orderRevision;

@@ -1,13 +1,14 @@
 package org.keliu.orderservice.controller;
 
-import org.keliu.orderservice.domain.DeliveryInformation;
+import org.keliu.common.domain.delivery.DeliveryInformation;
+import org.keliu.common.domain.order.OrderRevision;
 import org.keliu.orderservice.domain.MenuItemIdAndQuantity;
 import org.keliu.orderservice.domain.Order;
 import org.keliu.orderservice.dto.CreateOrderRequest;
-import org.keliu.orderservice.dto.CreateOrderResponse;
 import org.keliu.orderservice.dto.GetOrderResponse;
 import org.keliu.orderservice.dto.Mapper;
 import org.keliu.orderservice.exception.OrderNotFoundException;
+import org.keliu.orderservice.dto.CreateOrderResponse;
 import org.keliu.orderservice.repository.OrderRepository;
 import org.keliu.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,17 @@ public class OrderController {
     public ResponseEntity<GetOrderResponse> cancel(@PathVariable long orderId) {
         try {
             Order order = orderService.cancel(orderId);
-            return new ResponseEntity<>(makeGetOrderResponse(order), HttpStatus.OK);
+            return new ResponseEntity<>(Mapper.toGetOrderResponse(order), HttpStatus.OK);
+        } catch (OrderNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(path = "/{orderId}/revise", method = RequestMethod.POST)
+    public ResponseEntity<GetOrderResponse> revise(@PathVariable long orderId, @RequestBody ReviseOrderRequest request) {
+        try {
+            Order order = orderService.reviseOrder(orderId, new OrderRevision(Optional.empty(), request.getRevisedOrderLineItems()));
+            return new ResponseEntity<>(Mapper.toGetOrderResponse(order), HttpStatus.OK);
         } catch (OrderNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

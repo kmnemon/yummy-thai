@@ -1,19 +1,21 @@
 package org.keliu.orderservice.sagaparticipants.handler;
 
+import io.eventuate.tram.commands.consumer.CommandHandlerReplyBuilder;
 import io.eventuate.tram.commands.consumer.CommandHandlers;
 import io.eventuate.tram.commands.consumer.CommandMessage;
 import io.eventuate.tram.messaging.common.Message;
 import io.eventuate.tram.sagas.participant.SagaCommandHandlersBuilder;
-import org.keliu.command.order.ApproveOrderCommand;
-import org.keliu.command.order.BeginCancelCommand;
-import org.keliu.command.order.BeginReviseOrderCommand;
-import org.keliu.command.order.ConfirmCancelOrderCommand;
-import org.keliu.command.order.ConfirmReviseOrderCommand;
-import org.keliu.command.order.RejectOrderCommand;
-import org.keliu.command.order.UndoBeginCancelCommand;
-import org.keliu.command.order.UndoBeginReviseOrderCommand;
-import org.keliu.domain.order.OrderRevision;
-import org.keliu.exception.UnsupportedStateTransitionException;
+import org.keliu.common.command.order.ApproveOrderCommand;
+import org.keliu.common.command.order.BeginCancelCommand;
+import org.keliu.common.command.order.BeginReviseOrderCommand;
+import org.keliu.common.command.order.ConfirmCancelOrderCommand;
+import org.keliu.common.command.order.ConfirmReviseOrderCommand;
+import org.keliu.common.command.order.RejectOrderCommand;
+import org.keliu.common.command.order.UndoBeginCancelCommand;
+import org.keliu.common.command.order.UndoBeginReviseOrderCommand;
+import org.keliu.common.reply.BeginReviseOrderReply;
+import org.keliu.common.domain.order.OrderRevision;
+import org.keliu.common.exception.UnsupportedStateTransitionException;
 import org.keliu.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 

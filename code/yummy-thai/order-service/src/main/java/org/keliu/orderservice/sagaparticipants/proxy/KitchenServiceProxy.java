@@ -3,11 +3,11 @@ package org.keliu.orderservice.sagaparticipants.proxy;
 import io.eventuate.tram.commands.common.Success;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpoint;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpointBuilder;
-import org.keliu.channel.KitchenServiceChannels;
-import org.keliu.command.kitchen.CancelCreateTicketCommand;
-import org.keliu.command.kitchen.ConfirmCreateTicketCommand;
-import org.keliu.command.kitchen.CreateTicketCommand;
-import org.keliu.reply.CreateTicketReply;
+import org.keliu.common.channel.KitchenServiceChannels;
+import org.keliu.common.command.kitchen.CancelCreateTicketCommand;
+import org.keliu.common.command.kitchen.ConfirmCreateTicketCommand;
+import org.keliu.common.command.kitchen.CreateTicketCommand;
+import org.keliu.common.reply.CreateTicketReply;
 
 public class KitchenServiceProxy {
     public final CommandEndpoint<CreateTicketCommand> create = CommandEndpointBuilder

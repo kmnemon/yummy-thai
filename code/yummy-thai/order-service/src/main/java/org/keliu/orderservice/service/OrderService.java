@@ -3,23 +3,28 @@ package org.keliu.orderservice.service;
 import io.eventuate.tram.events.aggregates.ResultWithDomainEvents;
 import io.eventuate.tram.sagas.orchestration.SagaInstanceFactory;
 import io.micrometer.core.instrument.MeterRegistry;
-import org.keliu.orderservice.events.OrderDetails;
-import org.keliu.orderservice.events.OrderDomainEvent;
-import org.keliu.orderservice.events.OrderDomainEventPublisher;
+import org.keliu.common.domain.delivery.DeliveryInformation;
+import org.keliu.common.domain.order.OrderRevision;
 import org.keliu.orderservice.exception.InvalidMenuItemIdException;
 import org.keliu.orderservice.exception.OrderNotFoundException;
 import org.keliu.orderservice.exception.RestaurantNotFoundException;
+import org.keliu.orderservice.sagas.cancelorder.CancelOrderSaga;
+import org.keliu.orderservice.sagas.cancelorder.CancelOrderSagaData;
+import org.keliu.orderservice.sagas.createorder.CreateOrderSaga;
+import org.keliu.orderservice.sagas.createorder.CreateOrderSagaData;
+import org.keliu.orderservice.sagas.reviseorder.ReviseOrderSaga;
+import org.keliu.orderservice.sagas.reviseorder.ReviseOrderSagaData;
+import org.keliu.orderservice.domain.OrderDetails;
+import org.keliu.orderservice.events.OrderDomainEvent;
+import org.keliu.orderservice.events.OrderDomainEventPublisher;
 import org.keliu.orderservice.domain.*;
 import org.keliu.orderservice.repository.OrderRepository;
 import org.keliu.orderservice.repository.RestaurantRepository;
-import org.keliu.orderservice.sagas.cancelorder.CancelOrderSaga;
-import org.keliu.orderservice.sagas.createorder.CreateOrderSaga;
-import org.keliu.orderservice.sagas.createorder.CreateOrderSagaState;
-import org.keliu.orderservice.sagas.reviseorder.ReviseOrderSaga;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,7 +32,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
@@ -69,7 +74,7 @@ public class OrderService {
 
         OrderDetails orderDetails = new OrderDetails(consumerId, restaurantId, orderLineItems, order.getOrderTotal());
 
-        CreateOrderSagaState data = new CreateOrderSagaState(order.getId(), orderDetails);
+        CreateOrderSagaData data = new CreateOrderSagaData(order.getId(), orderDetails);
         sagaInstanceFactory.create(createOrderSaga, data);
 
         meterRegistry.ifPresent(mr-> mr.counter("placed_orders").increment());

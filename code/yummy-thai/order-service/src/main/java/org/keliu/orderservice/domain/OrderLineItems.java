@@ -1,7 +1,8 @@
 package org.keliu.orderservice.domain;
 
-import org.keliu.domain.Money;
-import org.keliu.domain.order.RevisedOrderLineItem;
+import org.keliu.common.domain.Money;
+import org.keliu.common.domain.order.OrderRevision;
+import org.keliu.common.domain.order.RevisedOrderLineItem;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;

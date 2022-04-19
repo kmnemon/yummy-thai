@@ -3,9 +3,9 @@ package org.keliu.orderservice.sagaparticipants.proxy;
 import io.eventuate.tram.commands.common.Success;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpoint;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpointBuilder;
-import org.keliu.command.order.ApproveOrderCommand;
-import org.keliu.command.order.RejectOrderCommand;
-import org.keliu.channel.OrderServiceChannels;
+import org.keliu.common.command.order.ApproveOrderCommand;
+import org.keliu.common.command.order.RejectOrderCommand;
+import org.keliu.common.channel.OrderServiceChannels;
 
 public class OrderServiceProxy {
     public final CommandEndpoint<ApproveOrderCommand> approve = CommandEndpointBuilder

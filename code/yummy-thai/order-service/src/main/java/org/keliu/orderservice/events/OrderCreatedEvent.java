@@ -3,7 +3,8 @@ package org.keliu.orderservice.events;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.keliu.domain.Address;
+import org.keliu.common.domain.Address;
+import org.keliu.orderservice.domain.OrderDetails;
 
 public class OrderCreatedEvent implements OrderDomainEvent{
     private OrderDetails orderDetails;

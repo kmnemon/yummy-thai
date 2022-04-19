@@ -1,6 +1,6 @@
 package org.keliu.orderservice.dto;
 
-import org.keliu.domain.Address;
+import org.keliu.common.domain.Address;
 
 import java.time.LocalDateTime;
 import java.util.List;

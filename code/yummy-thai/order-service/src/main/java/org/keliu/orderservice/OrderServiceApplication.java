@@ -1,6 +1,5 @@
 package org.keliu.orderservice;
 
-import org.keliu.orderservice.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

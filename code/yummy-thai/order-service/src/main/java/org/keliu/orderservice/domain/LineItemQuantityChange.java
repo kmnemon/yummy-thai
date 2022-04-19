@@ -1,6 +1,6 @@
 package org.keliu.orderservice.domain;
 
-import org.keliu.domain.Money;
+import org.keliu.common.domain.Money;
 
 public class LineItemQuantityChange {
     final Money currentOrderTotal;

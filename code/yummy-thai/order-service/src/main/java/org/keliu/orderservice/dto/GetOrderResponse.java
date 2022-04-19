@@ -1,6 +1,6 @@
 package org.keliu.orderservice.dto;
 
-import org.keliu.domain.Money;
+import org.keliu.common.domain.Money;
 import org.keliu.orderservice.domain.OrderState;
 
 public class GetOrderResponse {
