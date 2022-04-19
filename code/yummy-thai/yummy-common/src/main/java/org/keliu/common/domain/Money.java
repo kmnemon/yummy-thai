@@ -77,6 +77,6 @@ public class Money {
     }
 
     public Long asLong() {
-        return multiply(100).amount.longValue();
+        return amount.longValue();
     }
 }
