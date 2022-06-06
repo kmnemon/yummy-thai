@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static io.eventuate.tram.testing.DomainEventHandlerUnitTestSupport.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
