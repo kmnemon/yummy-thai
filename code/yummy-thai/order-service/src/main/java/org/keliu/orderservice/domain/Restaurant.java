@@ -12,14 +12,14 @@ import java.util.Optional;
 public class Restaurant {
     @Id
     private long id;
-
+    
     @ElementCollection
     @CollectionTable(name = "order_service_restaurant_menu_items")
     private List<MenuItem> menuItems;
 
     private String name;
 
-    public  Restaurant(){
+    public Restaurant(){
     }
 
     public Restaurant(long id, String name, List<MenuItem> menuItems){

@@ -38,6 +38,7 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
     @Autowired
     private RestaurantRepository restaurantRepository;
 
@@ -46,13 +47,16 @@ public class OrderService {
 
     @Autowired
     private CreateOrderSaga createOrderSaga;
+
     @Autowired
     private CancelOrderSaga cancelOrderSaga;
+
     @Autowired
     private ReviseOrderSaga reviseOrderSaga;
 
     @Autowired
     private OrderDomainEventPublisher orderAggregateEventPublisher;
+
     @Autowired
     private Optional<MeterRegistry> meterRegistry;
 
@@ -73,7 +77,6 @@ public class OrderService {
         orderAggregateEventPublisher.publish(order, orderAndEvents.events);
 
         OrderDetails orderDetails = new OrderDetails(consumerId, restaurantId, orderLineItems, order.getOrderTotal());
-
         CreateOrderSagaData data = new CreateOrderSagaData(order.getId(), orderDetails);
         sagaInstanceFactory.create(createOrderSaga, data);
 
