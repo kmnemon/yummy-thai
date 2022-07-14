@@ -29,7 +29,7 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    public CreateOrderResponse create(@RequestBody CreateOrderRequest request) {
+    public CreateOrderResponse createOrder(@RequestBody CreateOrderRequest request) {
         Order order = orderService.createOrder(request.getConsumerId(),
                 request.getRestaurantId(),
                 new DeliveryInformation(request.getDeliveryTime(), request.getDeliveryAddress()),
@@ -45,7 +45,7 @@ public class OrderController {
     }
 
     @RequestMapping(path = "/{orderId}/cancel", method = RequestMethod.POST)
-    public ResponseEntity<GetOrderResponse> cancel(@PathVariable long orderId) {
+    public ResponseEntity<GetOrderResponse> cancelOrder(@PathVariable long orderId) {
         try {
             Order order = orderService.cancel(orderId);
             return new ResponseEntity<>(Mapper.toGetOrderResponse(order), HttpStatus.OK);
@@ -55,7 +55,7 @@ public class OrderController {
     }
 
     @RequestMapping(path = "/{orderId}/revise", method = RequestMethod.POST)
-    public ResponseEntity<GetOrderResponse> revise(@PathVariable long orderId, @RequestBody ReviseOrderRequest request) {
+    public ResponseEntity<GetOrderResponse> reviseOrder(@PathVariable long orderId, @RequestBody ReviseOrderRequest request) {
         try {
             Order order = orderService.reviseOrder(orderId, new OrderRevision(Optional.empty(), request.getRevisedOrderLineItems()));
             return new ResponseEntity<>(Mapper.toGetOrderResponse(order), HttpStatus.OK);
